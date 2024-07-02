@@ -1,0 +1,42 @@
+server:
+  port: 5000
+  servlet:
+    encoding:
+      charset: utf-8
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${rds_hostname}:${rds_port}/${rds_db_name}
+    username: ${rds_username}
+    password: ${rds_password}
+  servlet:
+    multipart:
+      enabled: true # 멀티파트 업로드 지원 여부 (default: true)
+      file-size-threshold: 0B # 파일을 디스크에 저장하지 않고 메모리에 저장하는 최소 크기 (default: 0B)
+      max-file-size: 20MB # 한 개 파일의 최대 사이즈 (default: 1MB)
+      max-request-size: 100MB # 한 개 요청의 최대 사이즈 (default: 10MB)
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+## Swagger 설정
+springdoc:
+  swagger-ui:
+    path: /api-docs.html
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-produces-media-type: application/json
+
+swagger:
+  url: /swagger-ui/index.html#/
+  host: ${swagger_host}
+
+cors:
+  allowed:
+    origins: ${cors_allowed_origins}
