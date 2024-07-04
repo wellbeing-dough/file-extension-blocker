@@ -20,7 +20,7 @@ create table file_extension
         primary key,
     EXTENSION_NAME                   varchar(50) not null,
     DESCRIPTION                           text not null,
-    DANGER_REASON                    text not null,
+    DANGER_REASON                    text null,
     ADD_COUNT                        int null,
     SAFETY_STATUS                    varchar(20) null,
     CREATED_DATE                     timestamp not null,

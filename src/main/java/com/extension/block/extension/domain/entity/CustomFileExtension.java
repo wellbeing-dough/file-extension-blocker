@@ -1,6 +1,7 @@
 package com.extension.block.extension.domain.entity;
 
 import com.extension.block.common.domain.entity.BaseEntity;
+import com.extension.block.extension.domain.component.ExtensionName;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,14 +24,16 @@ public class CustomFileExtension extends BaseEntity {
 
     private Long memberId;
 
-    private String extensionName;
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "extension_name"))
+    private ExtensionName extensionName;
 
     private String description;
 
     private LocalDateTime deletedAt;
 
     @Builder
-    public CustomFileExtension(Long memberId, String extensionName, String description) {
+    public CustomFileExtension(Long memberId, ExtensionName extensionName, String description) {
         this.memberId = memberId;
         this.extensionName = extensionName;
         this.description = description;

@@ -1,5 +1,6 @@
-package com.extension.block.extension.domain.component;
+package com.extension.block.extension.domain.implementations;
 
+import com.extension.block.extension.domain.component.ExtensionName;
 import com.extension.block.extension.domain.entity.FileExtension;
 import com.extension.block.extension.repository.FileExtensionRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ public class FileExtensionsCrawler {
     private final FileExtensionRepository fileExtensionRepository;
 
     @Transactional
-    @Scheduled(cron = "0 0 0 1 */3 *")  // 3개월마다 첫째 날 자정에 실행
     public void fetchAndSaveNewExtensions() throws IOException {
         String url = "https://namu.wiki/w/%ED%99%95%EC%9E%A5%EC%9E%90/%EB%AA%A9%EB%A1%9D";
         Document document = Jsoup.connect(url).get();
@@ -41,7 +40,10 @@ public class FileExtensionsCrawler {
                 if (cells.size() == 2) {
                     String type = cells.get(0).text().trim().replace("§", "");
                     String notes = cells.get(1).text().trim();
-                    FileExtension fileExtension = new FileExtension(type, notes);
+                    if ("종류".equals(type)) {
+                        continue;
+                    }
+                    FileExtension fileExtension = new FileExtension(new ExtensionName(type), notes);
                     fileExtensions.add(fileExtension);
                 }
             }
@@ -59,12 +61,12 @@ public class FileExtensionsCrawler {
 
         // 빠른 조회를 위해 기존 항목의 extensionName을 집합으로 생성
         Set<String> existingExtensionNames = existingExtensions.stream()
-                .map(FileExtension::getExtensionName)
+                .map(extension -> extension.getExtensionName().getValue())
                 .collect(Collectors.toSet());
 
         // 데이터베이스에 이미 존재하지 않는 확장자만 필터링
         return fileExtensions.stream()
-                .filter(extension -> !existingExtensionNames.contains(extension.getExtensionName()))
+                .filter(extension -> !existingExtensionNames.contains(extension.getExtensionName().getValue()))
                 .collect(Collectors.toList());
     }
 
@@ -82,9 +84,12 @@ public class FileExtensionsCrawler {
             for (Element row : rows) {
                 Elements cells = row.select("td");
                 if (cells.size() == 2) {
-                    String type = cells.get(0).text().trim();
+                    String type = cells.get(0).text().trim().replace("§", "");
                     String notes = cells.get(1).text().trim();
-                    FileExtension fileExtension = new FileExtension(type, notes);
+                    if ("종류".equals(type)) {
+                        continue;
+                    }
+                    FileExtension fileExtension = new FileExtension(new ExtensionName(type), notes);
                     fileExtensions.add(fileExtension);
                 }
             }

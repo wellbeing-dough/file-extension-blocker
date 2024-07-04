@@ -50,9 +50,6 @@ dependencies {
     // Crawling
     implementation 'org.jsoup:jsoup:1.15.3'
 
-    //scheduler
-    implementation 'org.springframework.boot:spring-boot-starter-schedule'
-
 }
 
 tasks.named('test') {

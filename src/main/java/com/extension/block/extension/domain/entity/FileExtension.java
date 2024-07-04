@@ -1,6 +1,7 @@
 package com.extension.block.extension.domain.entity;
 
 import com.extension.block.common.domain.entity.BaseEntity;
+import com.extension.block.extension.domain.component.ExtensionName;
 import com.extension.block.extension.domain.enums.ExtensionSafetyStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -22,7 +23,9 @@ public class FileExtension extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String extensionName;
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "extension_name"))
+    private ExtensionName extensionName;
 
     private String description;
 
@@ -34,7 +37,7 @@ public class FileExtension extends BaseEntity {
     private LocalDateTime deletedAt;
 
     @Builder
-    public FileExtension(String extensionName, String description) {
+    public FileExtension(ExtensionName extensionName, String description) {
         this.extensionName = extensionName;
         this.description = description;
         this.safetyStatus = ExtensionSafetyStatus.SAFE;
