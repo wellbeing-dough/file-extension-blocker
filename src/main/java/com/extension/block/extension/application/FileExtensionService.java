@@ -30,6 +30,7 @@ public class FileExtensionService {
     public void addCustomExtension(String extensionName, Long memberId) {
         Member findMember = memberReader.readById(memberId);
         dangerFileExtensionValidator.validIsDangerFileExtension(extensionName);
+        customFileExtensionValidator.validIsCustomFileExtensionCountOver(findMember.getId());
         SafeFileExtension safeFileExtension = safeFileExtensionReader.readByExtensionName(extensionName);
         CustomFileExtension customFileExtension = new CustomFileExtension(findMember.getId(), safeFileExtension.getExtensionName(),
                 safeFileExtension.getDescription());
@@ -38,7 +39,7 @@ public class FileExtensionService {
 
     public void deleteCustomExtension(Long customExtensionId, Long memberId) {
         CustomFileExtension customFileExtension = customFileExtensionReader.readById(customExtensionId);
-        customFileExtensionValidator.validateIsMembersCustomFileExtension(customFileExtension, memberId);
+        customFileExtensionValidator.validIsMembersCustomFileExtension(customFileExtension, memberId);
         customFileExtensionWriter.delete(customFileExtension);
     }
 

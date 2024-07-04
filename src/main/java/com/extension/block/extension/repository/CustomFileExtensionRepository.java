@@ -4,4 +4,5 @@ import com.extension.block.extension.domain.entity.CustomFileExtension;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomFileExtensionRepository extends JpaRepository<CustomFileExtension, Long>, CustomFileExtensionQueryDSLRepository{
+    long countByMemberId(Long memberId);
 }
