@@ -20,5 +20,6 @@ public class CustomFileExtensionWriter {
 
     public void delete(CustomFileExtension customFileExtension) {
         customFileExtension.delete();
+        customFileExtensionRepository.save(customFileExtension);
     }
 }

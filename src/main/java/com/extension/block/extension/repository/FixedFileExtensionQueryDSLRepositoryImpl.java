@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.extension.block.extension.domain.entity.QSafeFileExtension.safeFileExtension;
+import static com.extension.block.extension.domain.entity.QFixedFileExtension.fixedFileExtension;
 
 @Repository
 @RequiredArgsConstructor
-public class SafeFileExtensionQueryDSLRepositoryImpl implements SafeFileExtensionQueryDSLRepository {
+public class FixedFileExtensionQueryDSLRepositoryImpl implements FixedFileExtensionQueryDSLRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
 
@@ -23,11 +23,11 @@ public class SafeFileExtensionQueryDSLRepositoryImpl implements SafeFileExtensio
         JPAQuery<FixedFileExtensionData> query = jpaQueryFactory
                 .select(Projections.constructor(
                         FixedFileExtensionData.class,
-                        safeFileExtension.id.as("fixedFileExtensionId"),
-                        safeFileExtension.extensionName
+                        fixedFileExtension.id.as("fixedFileExtensionId"),
+                        fixedFileExtension.extensionName
                 ))
-                .from(safeFileExtension)
-                .where(safeFileExtension.safetyStatus.eq(ExtensionSafetyStatus.FIXED));
+                .from(fixedFileExtension)
+                .where(fixedFileExtension.safetyStatus.eq(ExtensionSafetyStatus.FIXED));
         return query.fetch();
     }
 }

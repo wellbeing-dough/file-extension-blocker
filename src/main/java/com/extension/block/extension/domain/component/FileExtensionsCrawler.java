@@ -30,8 +30,9 @@ public class FileExtensionsCrawler {
         List<FileExtension> fileExtensions = new ArrayList<>();
 
         // Select the table containing the "종류" and "비고" columns
-        Element table = document.select("table._6A2URz2V").first();
-        if (table != null) {
+        Elements tables = document.select("table:contains(종류)");
+
+        for (Element table : tables) {
             Elements rows = table.select("tr");
             for (Element row : rows) {
                 Elements cells = row.select("td");
@@ -64,13 +65,13 @@ public class FileExtensionsCrawler {
     @Transactional
     public void crawlAndSave() throws IOException {
         String url = "https://namu.wiki/w/%ED%99%95%EC%9E%A5%EC%9E%90/%EB%AA%A9%EB%A1%9D";
+        // User-Agent 헤더 추가
         Document document = Jsoup.connect(url).get();
-
         List<FileExtension> fileExtensions = new ArrayList<>();
 
-        // Select the table containing the "종류" and "비고" columns
-        Element table = document.select("table._6A2URz2V").first();
-        if (table != null) {
+        Elements tables = document.select("table:contains(종류)");
+
+        for (Element table : tables) {
             Elements rows = table.select("tr");
             for (Element row : rows) {
                 Elements cells = row.select("td");
@@ -86,6 +87,5 @@ public class FileExtensionsCrawler {
         // Save all extracted custom extensions to the repository
         fileExtensionRepository.saveAll(fileExtensions);
     }
-
 
 }

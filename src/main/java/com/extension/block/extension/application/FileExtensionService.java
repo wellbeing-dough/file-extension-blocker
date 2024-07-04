@@ -20,6 +20,7 @@ public class FileExtensionService {
     private final SafeFileExtensionReader safeFileExtensionReader;
     private final DangerFileExtensionValidator dangerFileExtensionValidator;
     private final CustomFileExtensionValidator customFileExtensionValidator;
+    private final FixedFileExtensionReader fixedFileExtensionReader;
 
     public CustomFileExtensionResponse getCustomExtensions(Long memberId) {
         Member findMember = memberReader.readById(memberId);
@@ -42,6 +43,6 @@ public class FileExtensionService {
     }
 
     public FixedFileExtensionResponse getFixedExtensions() {
-        return new FixedFileExtensionResponse(safeFileExtensionReader.readListByFixedExtensions());
+        return new FixedFileExtensionResponse(fixedFileExtensionReader.readListByFixedExtensions());
     }
 }

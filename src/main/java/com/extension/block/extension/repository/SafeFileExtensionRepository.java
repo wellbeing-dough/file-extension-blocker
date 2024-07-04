@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface SafeFileExtensionRepository extends JpaRepository<SafeFileExtension, Long>, SafeFileExtensionQueryDSLRepository {
+public interface SafeFileExtensionRepository extends JpaRepository<SafeFileExtension, Long> {
 
     Optional<SafeFileExtension> findByExtensionName(String extensionName);
 }
