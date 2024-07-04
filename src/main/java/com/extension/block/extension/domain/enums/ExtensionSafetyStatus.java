@@ -8,6 +8,7 @@ public enum ExtensionSafetyStatus {
 
     SAFE("안전"),
     DANGER("위험"),
+    FIXED("고정"),
     UNKNOWN("알 수 없음");
 
     private final String value;

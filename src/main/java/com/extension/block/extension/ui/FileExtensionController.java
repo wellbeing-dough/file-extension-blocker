@@ -4,6 +4,7 @@ import com.extension.block.extension.application.FileExtensionService;
 import com.extension.block.extension.domain.component.FileExtensionsCrawler;
 import com.extension.block.extension.ui.dto.request.AddCustomExtensionRequest;
 import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
+import com.extension.block.extension.ui.dto.response.FixedFileExtensionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,11 @@ public class FileExtensionController {
     public ResponseEntity<HttpStatus> deleteCustomExtension(@PathVariable("extension-id") Long extensionId, @PathVariable("member-id") Long memberId) {
         fileExtensionService.deleteCustomExtension(extensionId, memberId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "고정 파일 확장자 조회")
+    @GetMapping("/v1/file/fixed-extension")
+    public ResponseEntity<FixedFileExtensionResponse> getFixedExtensions() {
+        return ResponseEntity.ok().body(fileExtensionService.getFixedExtensions());
     }
 }

@@ -4,6 +4,7 @@ import com.extension.block.extension.domain.entity.CustomFileExtension;
 import com.extension.block.extension.domain.entity.SafeFileExtension;
 import com.extension.block.extension.domain.implementations.*;
 import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
+import com.extension.block.extension.ui.dto.response.FixedFileExtensionResponse;
 import com.extension.block.member.domain.entity.Member;
 import com.extension.block.member.domain.implementations.MemberReader;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class FileExtensionService {
         Member findMember = memberReader.readById(memberId);
         dangerFileExtensionValidator.validIsDangerFileExtension(extensionName);
         SafeFileExtension safeFileExtension = safeFileExtensionReader.readByExtensionName(extensionName);
-        CustomFileExtension customFileExtension = new CustomFileExtension(memberId, safeFileExtension.getExtensionName(),
+        CustomFileExtension customFileExtension = new CustomFileExtension(findMember.getId(), safeFileExtension.getExtensionName(),
                 safeFileExtension.getDescription());
         customFileExtensionWriter.write(customFileExtension);
     }
@@ -38,5 +39,9 @@ public class FileExtensionService {
         CustomFileExtension customFileExtension = customFileExtensionReader.readById(customExtensionId);
         customFileExtensionValidator.validateIsMembersCustomFileExtension(customFileExtension, memberId);
         customFileExtensionWriter.delete(customFileExtension);
+    }
+
+    public FixedFileExtensionResponse getFixedExtensions() {
+        return new FixedFileExtensionResponse(safeFileExtensionReader.readListByFixedExtensions());
     }
 }
