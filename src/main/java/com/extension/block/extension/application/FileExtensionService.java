@@ -2,10 +2,7 @@ package com.extension.block.extension.application;
 
 import com.extension.block.extension.domain.entity.CustomFileExtension;
 import com.extension.block.extension.domain.entity.SafeFileExtension;
-import com.extension.block.extension.domain.implementations.CustomFileExtensionReader;
-import com.extension.block.extension.domain.implementations.CustomFileExtensionWriter;
-import com.extension.block.extension.domain.implementations.DangerFileExtensionValidator;
-import com.extension.block.extension.domain.implementations.SafeFileExtensionReader;
+import com.extension.block.extension.domain.implementations.*;
 import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
 import com.extension.block.member.domain.entity.Member;
 import com.extension.block.member.domain.implementations.MemberReader;
@@ -21,18 +18,25 @@ public class FileExtensionService {
     private final MemberReader memberReader;
     private final SafeFileExtensionReader safeFileExtensionReader;
     private final DangerFileExtensionValidator dangerFileExtensionValidator;
+    private final CustomFileExtensionValidator customFileExtensionValidator;
 
     public CustomFileExtensionResponse getCustomExtensions(Long memberId) {
         Member findMember = memberReader.readById(memberId);
         return new CustomFileExtensionResponse(customFileExtensionReader.readListByMemberId(findMember.getId()));
     }
 
-    public CustomFileExtensionResponse addCustomExtension(String extensionName, Long memberId) {
+    public void addCustomExtension(String extensionName, Long memberId) {
         Member findMember = memberReader.readById(memberId);
         dangerFileExtensionValidator.validIsDangerFileExtension(extensionName);
         SafeFileExtension safeFileExtension = safeFileExtensionReader.readByExtensionName(extensionName);
         CustomFileExtension customFileExtension = new CustomFileExtension(memberId, safeFileExtension.getExtensionName(),
                 safeFileExtension.getDescription());
         customFileExtensionWriter.write(customFileExtension);
+    }
+
+    public void deleteCustomExtension(Long customExtensionId, Long memberId) {
+        CustomFileExtension customFileExtension = customFileExtensionReader.readById(customExtensionId);
+        customFileExtensionValidator.validateIsMembersCustomFileExtension(customFileExtension, memberId);
+        customFileExtensionWriter.delete(customFileExtension);
     }
 }

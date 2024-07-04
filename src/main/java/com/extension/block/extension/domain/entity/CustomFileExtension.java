@@ -35,4 +35,12 @@ public class CustomFileExtension extends BaseEntity {
         this.extensionName = extensionName;
         this.description = description;
     }
+
+    public boolean isMembersExtension(Long memberId) {
+        return this.memberId.equals(memberId);
+    }
+
+    public void delete() {
+        this.deletedAt = LocalDateTime.now();
+    }
 }

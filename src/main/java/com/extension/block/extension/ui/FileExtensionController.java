@@ -42,7 +42,9 @@ public class FileExtensionController {
     }
 
     @Operation(summary = "커스텀 확장자 삭제")
-    @DeleteMapping("/v1/file/custom-extension/{member-id}")
-    public ResponseEntity<HttpStatus> deleteCustomExtension(@PathVariable("member-id") Long memberId) {
+    @DeleteMapping("/v1/file/custom-extension/{extension-id}/{member-id}")
+    public ResponseEntity<HttpStatus> deleteCustomExtension(@PathVariable("extension-id") Long extensionId, @PathVariable("member-id") Long memberId) {
+        fileExtensionService.deleteCustomExtension(extensionId, memberId);
+        return ResponseEntity.noContent().build();
     }
 }

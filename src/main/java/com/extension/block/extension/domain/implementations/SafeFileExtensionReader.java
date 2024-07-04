@@ -2,7 +2,7 @@ package com.extension.block.extension.domain.implementations;
 
 import com.extension.block.common.exception.ErrorCode;
 import com.extension.block.extension.domain.entity.SafeFileExtension;
-import com.extension.block.extension.exception.ExtensionNameNotFoundException;
+import com.extension.block.extension.exception.FileExtensionNameNotFoundException;
 import com.extension.block.extension.repository.SafeFileExtensionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class SafeFileExtensionReader {
     public SafeFileExtension readByExtensionName(String extensionName) {
         return safeFileExtensionRepository.findByExtensionName(extensionName)
                 .orElseThrow(() ->
-                        new ExtensionNameNotFoundException(
+                        new FileExtensionNameNotFoundException(
                                 ErrorCode.FILE_EXTENSION_NOT_FOUND_ERROR,
                                 ErrorCode.FILE_EXTENSION_NOT_FOUND_ERROR.getStatusMessage()
                         )
