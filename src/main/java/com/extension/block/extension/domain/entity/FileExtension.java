@@ -40,4 +40,8 @@ public class FileExtension extends BaseEntity {
         this.safetyStatus = ExtensionSafetyStatus.SAFE;
         this.addCount = 0L;
     }
+
+    public void updateSafetyStatus(ExtensionSafetyStatus status) {
+        this.safetyStatus = status;
+    }
 }

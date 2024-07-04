@@ -19,8 +19,8 @@ public class SafeFileExtensionReader {
         return safeFileExtensionRepository.findByExtensionName(extensionName)
                 .orElseThrow(() ->
                         new FileExtensionNameNotFoundException(
-                                ErrorCode.FILE_EXTENSION_NOT_FOUND_ERROR,
-                                ErrorCode.FILE_EXTENSION_NOT_FOUND_ERROR.getStatusMessage()
+                                ErrorCode.FILE_EXTENSION_NOT_SUPPORT_ERROR,
+                                ErrorCode.FILE_EXTENSION_NOT_SUPPORT_ERROR.getStatusMessage()
                         )
                 );
     }
