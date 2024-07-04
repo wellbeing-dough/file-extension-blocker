@@ -1,5 +1,6 @@
 package com.extension.block.extension.domain.entity;
 
+import com.extension.block.common.domain.entity.BaseEntity;
 import com.extension.block.extension.domain.enums.ExtensionSafetyStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "extension")
+@Table(name = "file_extension")
 @Where(clause = "deleted_at IS NULL AND safety_status = 'SAFE'")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SafeFileExtension extends BaseEntity {

@@ -1,4 +1,4 @@
-package com.extension.block.extension.domain.entity;
+package com.extension.block.common.domain.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

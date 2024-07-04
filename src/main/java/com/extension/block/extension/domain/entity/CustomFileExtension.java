@@ -1,5 +1,6 @@
 package com.extension.block.extension.domain.entity;
 
+import com.extension.block.common.domain.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "custom_extension")
+@Table(name = "custom_file_extension")
 @Where(clause = "deleted_at IS NULL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomFileExtension extends BaseEntity {

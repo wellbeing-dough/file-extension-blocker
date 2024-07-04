@@ -1,5 +1,6 @@
-package com.extension.block.extension.domain.entity;
+package com.extension.block.member.domain.entity;
 
+import com.extension.block.common.domain.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

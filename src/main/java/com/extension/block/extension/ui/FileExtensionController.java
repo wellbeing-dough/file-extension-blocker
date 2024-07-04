@@ -2,8 +2,10 @@ package com.extension.block.extension.ui;
 
 import com.extension.block.extension.application.FileExtensionService;
 import com.extension.block.extension.domain.component.FileExtensionsCrawler;
+import com.extension.block.extension.ui.dto.request.AddCustomExtensionRequest;
 import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,20 +28,21 @@ public class FileExtensionController {
     }
 
     @Operation(summary = "커스텀 확장자들 조회")
-    @GetMapping("/v1/file-extension/{member-id}")
-    public ResponseEntity<CustomFileExtensionResponse> getCustomExtensions(@PathVariable("member-id") String memberId) {
-
+    @GetMapping("/v1/file/custom-extension/{member-id}")
+    public ResponseEntity<CustomFileExtensionResponse> getCustomExtensions(@PathVariable("member-id") Long memberId) {
+        return ResponseEntity.ok().body(fileExtensionService.getCustomExtensions(memberId));
     }
 
     @Operation(summary = "커스텀 확장자 추가")
-    @PostMapping("/v1/file-extension/{member-id}")
-    public ResponseEntity<CustomFileExtensionResponse> addCustomExtensions(@PathVariable("member-id") String memberId) {
-
+    @PostMapping("/v1/file/custom-extension/{member-id}")
+    public ResponseEntity<HttpStatus> addCustomExtension(@RequestBody @Valid AddCustomExtensionRequest request,
+                                                         @PathVariable("member-id") Long memberId) {
+        fileExtensionService.addCustomExtension(request.getExtensionName(), memberId);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "커스텀 확장자 삭제")
-    @DeleteMapping("/v1/file-extension/{member-id}")
-    public ResponseEntity<HttpStatus> deleteCustomExtensions(@PathVariable("member-id") String memberId) {
-
+    @DeleteMapping("/v1/file/custom-extension/{member-id}")
+    public ResponseEntity<HttpStatus> deleteCustomExtension(@PathVariable("member-id") Long memberId) {
     }
 }
