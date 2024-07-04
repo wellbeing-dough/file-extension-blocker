@@ -14,11 +14,13 @@ import java.time.LocalDateTime;
 @Table(name = "custom_extension")
 @Where(clause = "deleted_at IS NULL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CustomExtension extends BaseEntity {
+public class CustomFileExtension extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long memberId;
 
     private String extensionName;
 
@@ -27,7 +29,8 @@ public class CustomExtension extends BaseEntity {
     private LocalDateTime deletedAt;
 
     @Builder
-    public CustomExtension(String extensionName, String description) {
+    public CustomFileExtension(Long memberId, String extensionName, String description) {
+        this.memberId = memberId;
         this.extensionName = extensionName;
         this.description = description;
     }

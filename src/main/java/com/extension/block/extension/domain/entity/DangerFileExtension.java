@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "extension")
 @Where(clause = "deleted_at IS NULL AND safety_status = 'DANGER'")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DangerExtension extends BaseEntity {
+public class DangerFileExtension extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

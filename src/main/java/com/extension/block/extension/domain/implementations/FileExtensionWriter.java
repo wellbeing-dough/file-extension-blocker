@@ -1,6 +1,6 @@
 package com.extension.block.extension.domain.implementations;
 
-import com.extension.block.extension.repository.ExtensionRepository;
+import com.extension.block.extension.repository.FileExtensionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FileExtensionWriter {
 
-    private final ExtensionRepository extensionRepository;
+    private final FileExtensionRepository fileExtensionRepository;
 
 
 }

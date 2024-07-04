@@ -21,8 +21,6 @@ public class Member extends BaseEntity {
 
     private String name;
 
-    private Long customExtensionId;
-
     private LocalDateTime deletedAt;
 
 }
