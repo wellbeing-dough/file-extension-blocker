@@ -1,7 +1,6 @@
 package com.extension.block.extension.ui;
 
 import com.extension.block.extension.application.FileExtensionService;
-import com.extension.block.extension.domain.component.FileExtensionsCrawler;
 import com.extension.block.extension.ui.dto.request.AddCustomExtensionRequest;
 import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
 import com.extension.block.extension.ui.dto.response.FixedFileExtensionResponse;
@@ -12,21 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class FileExtensionController {
 
-    private final FileExtensionsCrawler fileExtensionsCrawler;
     private final FileExtensionService fileExtensionService;
-
-    @PostMapping("/v1/crawling")
-    public ResponseEntity<HttpStatus> crawling() throws IOException {
-        fileExtensionsCrawler.crawlAndSave();
-        return ResponseEntity.ok().build();
-    }
 
     @Operation(summary = "커스텀 확장자들 조회")
     @GetMapping("/v1/file/custom-extension/{member-id}")

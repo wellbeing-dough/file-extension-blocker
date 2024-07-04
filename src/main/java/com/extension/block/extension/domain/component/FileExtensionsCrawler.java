@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class FileExtensionsCrawler {
     private final FileExtensionRepository fileExtensionRepository;
 
     @Transactional
+    @Scheduled(cron = "0 0 0 1 */3 *")  // 3개월마다 첫째 날 자정에 실행
     public void fetchAndSaveNewExtensions() throws IOException {
         String url = "https://namu.wiki/w/%ED%99%95%EC%9E%A5%EC%9E%90/%EB%AA%A9%EB%A1%9D";
         Document document = Jsoup.connect(url).get();
@@ -37,7 +39,7 @@ public class FileExtensionsCrawler {
             for (Element row : rows) {
                 Elements cells = row.select("td");
                 if (cells.size() == 2) {
-                    String type = cells.get(0).text().trim();
+                    String type = cells.get(0).text().trim().replace("§", "");
                     String notes = cells.get(1).text().trim();
                     FileExtension fileExtension = new FileExtension(type, notes);
                     fileExtensions.add(fileExtension);
@@ -45,6 +47,13 @@ public class FileExtensionsCrawler {
             }
         }
 
+        List<FileExtension> newExtensions = filterNewExtensions(fileExtensions);
+
+        // 새로운 커스텀 확장자를 모두 저장
+        fileExtensionRepository.saveAll(newExtensions);
+    }
+
+    public List<FileExtension> filterNewExtensions(List<FileExtension> fileExtensions) {
         // 데이터베이스에서 모든 기존 항목을 가져옴
         List<FileExtension> existingExtensions = fileExtensionRepository.findAll();
 
@@ -54,12 +63,9 @@ public class FileExtensionsCrawler {
                 .collect(Collectors.toSet());
 
         // 데이터베이스에 이미 존재하지 않는 확장자만 필터링
-        List<FileExtension> newExtensions = fileExtensions.stream()
+        return fileExtensions.stream()
                 .filter(extension -> !existingExtensionNames.contains(extension.getExtensionName()))
                 .collect(Collectors.toList());
-
-        // 새로운 커스텀 확장자를 모두 저장
-        fileExtensionRepository.saveAll(newExtensions);
     }
 
     @Transactional
