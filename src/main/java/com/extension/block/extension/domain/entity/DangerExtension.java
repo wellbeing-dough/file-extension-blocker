@@ -1,5 +1,6 @@
 package com.extension.block.extension.domain.entity;
 
+import com.extension.block.extension.domain.enums.ExtensionSafetyStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,10 +11,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "danger_extension")
-@Where(clause = "deleted_at IS NULL")
+@Table(name = "extension")
+@Where(clause = "deleted_at IS NULL AND safety_status = 'DANGER'")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DangerExtension {
+public class DangerExtension extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +23,9 @@ public class DangerExtension {
     private String extensionName;
 
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private ExtensionSafetyStatus safetyStatus;
 
     private String dangerReason;
 

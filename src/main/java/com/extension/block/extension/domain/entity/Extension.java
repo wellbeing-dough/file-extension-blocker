@@ -1,9 +1,8 @@
 package com.extension.block.extension.domain.entity;
 
+import com.extension.block.extension.domain.enums.ExtensionSafetyStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
@@ -12,8 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "extension")
 @Where(clause = "deleted_at IS NULL")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CustomExtensions {
+public class Extension extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +21,12 @@ public class CustomExtensions {
 
     private String description;
 
-    private LocalDateTime deletedAt;
+    @Enumerated(EnumType.STRING)
+    private ExtensionSafetyStatus safetyStatus;
 
+    private String dangerReason;
+
+    private Long addCount;
+
+    private LocalDateTime deletedAt;
 }

@@ -1,5 +1,6 @@
 package com.extension.block.extension.domain.entity;
 
+import com.extension.block.extension.domain.enums.ExtensionSafetyStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,10 +11,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "safe_extension")
-@Where(clause = "deleted_at IS NULL")
+@Table(name = "extension")
+@Where(clause = "deleted_at IS NULL AND safety_status = 'SAFE'")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SafeExtension {
+public class SafeExtension extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +25,9 @@ public class SafeExtension {
     private String description;
 
     private Long addCount;
+
+    @Enumerated(EnumType.STRING)
+    private ExtensionSafetyStatus safetyStatus;
 
     private LocalDateTime deletedAt;
 
