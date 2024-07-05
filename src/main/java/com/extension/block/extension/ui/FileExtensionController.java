@@ -50,7 +50,7 @@ public class FileExtensionController {
     }
 
     @Operation(summary = "고정 차단 파일 확장자 조회")
-    @GetMapping("/v1/file/block-fixed-extensions")
+    @GetMapping("/v1/file/fixed/block-extensions")
     public ResponseEntity<BlockFixedFileExtensionResponse> getBlockFixedExtensions() {
         return ResponseEntity.ok().body(fileExtensionService.getBlockFixedExtensions());
     }

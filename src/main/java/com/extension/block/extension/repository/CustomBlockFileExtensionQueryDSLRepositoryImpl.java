@@ -1,5 +1,6 @@
 package com.extension.block.extension.repository;
 
+import com.extension.block.extension.domain.enums.ExtensionStatus;
 import com.extension.block.extension.repository.dto.CustomFileExtensionData;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -27,7 +28,8 @@ public class CustomBlockFileExtensionQueryDSLRepositoryImpl implements CustomBlo
                         fileExtension.extensionName
                 ))
                 .from(customBlockFileExtension)
-                .innerJoin(fileExtension).on(customBlockFileExtension.fileExtensionId.eq(fileExtension.id));
+                .innerJoin(fileExtension).on(customBlockFileExtension.fileExtensionId.eq(fileExtension.id))
+                .where(fileExtension.extensionStatus.notIn(ExtensionStatus.BLOCK_FIXED));
         return query.fetch();
     }
 }

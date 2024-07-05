@@ -32,7 +32,7 @@ public class FileExtension extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ExtensionStatus extensionStatus;
 
-    private Long blockCount;
+    private Long blockedCount;
 
     private LocalDateTime deletedAt;
 
@@ -41,7 +41,7 @@ public class FileExtension extends BaseEntity {
         this.extensionName = extensionName;
         this.description = description;
         this.extensionStatus = ExtensionStatus.SAFE;
-        this.blockCount = 0L;
+        this.blockedCount = 0L;
     }
 
     public void updateSafetyStatus(ExtensionStatus status) {

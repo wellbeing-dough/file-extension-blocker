@@ -30,7 +30,7 @@ public class CustomBlockFileExtensionValidator {
     }
 
     public void validAlreadyExistsBlockedFileExtension(FileExtension fileExtension) {
-        if (!customBlockFileExtensionRepository.existsByFileExtensionId(fileExtension.getId())) {
+        if (customBlockFileExtensionRepository.existsByFileExtensionId(fileExtension.getId())) {
             throw new CustomBlockFileExtensionAlreadyExistException(
                     ErrorCode.CUSTOM_BLOCK_FILE_EXTENSION_ALREADY_EXIST_ERROR,
                     ErrorCode.CUSTOM_BLOCK_FILE_EXTENSION_ALREADY_EXIST_ERROR.getStatusMessage(),
