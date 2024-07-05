@@ -2,7 +2,7 @@ package com.extension.block.extension.domain.entity;
 
 import com.extension.block.common.domain.entity.BaseEntity;
 import com.extension.block.extension.domain.component.ExtensionName;
-import com.extension.block.extension.domain.enums.ExtensionSafetyStatus;
+import com.extension.block.extension.domain.enums.ExtensionStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -30,9 +30,7 @@ public class FileExtension extends BaseEntity {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private ExtensionSafetyStatus safetyStatus;
-
-    private Long addCount;
+    private ExtensionStatus extensionStatus;
 
     private LocalDateTime deletedAt;
 
@@ -40,11 +38,10 @@ public class FileExtension extends BaseEntity {
     public FileExtension(ExtensionName extensionName, String description) {
         this.extensionName = extensionName;
         this.description = description;
-        this.safetyStatus = ExtensionSafetyStatus.SAFE;
-        this.addCount = 0L;
+        this.extensionStatus = ExtensionStatus.SAFE;
     }
 
-    public void updateSafetyStatus(ExtensionSafetyStatus status) {
-        this.safetyStatus = status;
+    public void updateSafetyStatus(ExtensionStatus status) {
+        this.extensionStatus = status;
     }
 }

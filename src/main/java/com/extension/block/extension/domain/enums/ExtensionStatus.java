@@ -3,17 +3,15 @@ package com.extension.block.extension.domain.enums;
 import lombok.Getter;
 
 @Getter
-public enum ExtensionSafetyStatus {
+public enum ExtensionStatus {
 
 
+    BLOCKED("차단"),
     SAFE("안전"),
-    DANGER("위험"),
-    FIXED("고정"),
-    UNKNOWN("알 수 없음");
-
+    BLOCK_FIXED("고정 차단");
     private final String value;
 
-    ExtensionSafetyStatus(String value) {
+    ExtensionStatus(String value) {
         this.value = value;
     }
 }

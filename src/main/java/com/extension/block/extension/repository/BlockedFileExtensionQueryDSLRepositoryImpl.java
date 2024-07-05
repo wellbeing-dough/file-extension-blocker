@@ -1,7 +1,7 @@
 package com.extension.block.extension.repository;
 
 import com.extension.block.extension.domain.enums.ExtensionStatus;
-import com.extension.block.extension.repository.dto.BlockFixedFileExtensionData;
+import com.extension.block.extension.repository.dto.BlockedFileExtensionData;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,21 +14,20 @@ import static com.extension.block.extension.domain.entity.QFileExtension.fileExt
 
 @Repository
 @RequiredArgsConstructor
-public class FileExtensionQueryDSLRepositoryImpl implements FileExtensionQueryDSLRepository {
+public class BlockedFileExtensionQueryDSLRepositoryImpl implements BlockedFileExtensionQueryDSLRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<BlockFixedFileExtensionData> findAllFixedExtensions() {
-        JPAQuery<BlockFixedFileExtensionData> query = jpaQueryFactory
+    public List<BlockedFileExtensionData> findAllBlockedFileExtension() {
+        JPAQuery<BlockedFileExtensionData> query = jpaQueryFactory
                 .select(Projections.constructor(
-                        BlockFixedFileExtensionData.class,
-                        fileExtension.id.as("blockFixedFileExtensionId"),
-                        fileExtension.extensionName.value.as("extensionName")
+                        BlockedFileExtensionData.class,
+                        fileExtension.id.as("blockedFileExtensionId"),
+                        fileExtension.extensionName
                 ))
                 .from(fileExtension)
-                .where(fileExtension.extensionStatus.eq(ExtensionStatus.BLOCK_FIXED));
+                .where(fileExtension.extensionStatus.eq(ExtensionStatus.BLOCKED));
         return query.fetch();
     }
-
 }

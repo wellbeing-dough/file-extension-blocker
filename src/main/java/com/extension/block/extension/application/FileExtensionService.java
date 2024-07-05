@@ -1,13 +1,12 @@
 package com.extension.block.extension.application;
 
 import com.extension.block.extension.domain.component.ExtensionName;
-import com.extension.block.extension.domain.entity.CustomFileExtension;
+import com.extension.block.extension.domain.entity.BlockedFileExtension;
 import com.extension.block.extension.domain.entity.FileExtension;
+import com.extension.block.extension.domain.enums.ExtensionStatus;
 import com.extension.block.extension.domain.implementations.*;
-import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
-import com.extension.block.extension.ui.dto.response.FixedFileExtensionResponse;
-import com.extension.block.member.domain.entity.Member;
-import com.extension.block.member.domain.implementations.MemberReader;
+import com.extension.block.extension.ui.dto.response.BlockFileExtensionResponse;
+import com.extension.block.extension.ui.dto.response.BlockFixedFileExtensionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,37 +14,29 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FileExtensionService {
 
-    private final CustomFileExtensionReader customFileExtensionReader;
-    private final CustomFileExtensionWriter customFileExtensionWriter;
-    private final MemberReader memberReader;
-    private final DangerFileExtensionValidator dangerFileExtensionValidator;
-    private final CustomFileExtensionValidator customFileExtensionValidator;
+    private final BlockedFileExtensionValidator blockedFileExtensionValidator;
+    private final BlockedFileExtensionReader blockedFileExtensionReader;
     private final FileExtensionReader fileExtensionReader;
+    private final FileExtensionWriter fileExtensionWriter;
+    private final BlockedFileExtensionWriter blockedFileExtensionWriter;
 
-    public CustomFileExtensionResponse getCustomExtensions(Long memberId) {
-        Member findMember = memberReader.readById(memberId);
-        return new CustomFileExtensionResponse(customFileExtensionReader.readListByMemberId(findMember.getId()));
+    public BlockFileExtensionResponse getBlockedExtensions() {
+        return new BlockFileExtensionResponse(blockedFileExtensionReader.readAllExtension());
     }
 
-    public void addCustomExtension(ExtensionName extensionName, Long memberId) {
-        Member findMember = memberReader.readById(memberId);
-        dangerFileExtensionValidator.validIsDangerFileExtension(extensionName);
-        customFileExtensionValidator.validIsCustomFileExtensionCountOver(findMember.getId());
-        FileExtension fileExtension = fileExtensionReader.readUnDangerByExtensionName(extensionName);
-        customFileExtensionValidator.validAlreadyExistByMemberId(extensionName, memberId);
-        CustomFileExtension customFileExtension = new CustomFileExtension(findMember.getId(),
-                new ExtensionName(fileExtension.getExtensionName().toLowerCase()),
-                fileExtension.getDescription());
-        customFileExtensionWriter.write(customFileExtension);
+    public void blockExtension(ExtensionName extensionName) {
+        blockedFileExtensionValidator.validIsCountOver();
+        FileExtension fileExtension = fileExtensionReader.readByExtensionName(extensionName);
+        blockedFileExtensionValidator.validAlreadyExistsBlockedFileExtension(fileExtension);
+        fileExtensionWriter.updateExtensionStatus(fileExtension, ExtensionStatus.BLOCKED);
     }
 
-    public void deleteCustomExtension(Long customExtensionId, Long memberId) {
-        CustomFileExtension customFileExtension = customFileExtensionReader.readById(customExtensionId);
-        customFileExtensionValidator.validIsMembersCustomFileExtension(customFileExtension, memberId);
-        customFileExtensionWriter.delete(customFileExtension);
+    public void deleteBlockedExtension(Long extensionId) {
+        BlockedFileExtension blockedFileExtension = blockedFileExtensionReader.readById(extensionId);
+        blockedFileExtensionWriter.updateExtensionStatus(blockedFileExtension, ExtensionStatus.SAFE);
     }
 
-    public FixedFileExtensionResponse getFixedExtensions() {
-        return new FixedFileExtensionResponse(fileExtensionReader.readListByFixedExtensions());
+    public BlockFixedFileExtensionResponse getBlockFixedExtensions() {
+        return new BlockFixedFileExtensionResponse(fileExtensionReader.readListByFixedExtensions());
     }
 }
