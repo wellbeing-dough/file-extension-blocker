@@ -1,6 +1,7 @@
 package com.extension.block.extension.ui;
 
 import com.extension.block.extension.application.FileExtensionService;
+import com.extension.block.extension.domain.component.ExtensionName;
 import com.extension.block.extension.domain.implementations.FileExtensionsCrawler;
 import com.extension.block.extension.ui.dto.request.AddCustomExtensionRequest;
 import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
@@ -38,7 +39,7 @@ public class FileExtensionController {
     @PostMapping("/v1/file/custom-extension/{member-id}")
     public ResponseEntity<HttpStatus> addCustomExtension(@RequestBody @Valid AddCustomExtensionRequest request,
                                                          @PathVariable("member-id") Long memberId) {
-        fileExtensionService.addCustomExtension(request.getExtensionName(), memberId);
+        fileExtensionService.addCustomExtension(new ExtensionName(request.getExtensionName()), memberId);
         return ResponseEntity.ok().build();
     }
 

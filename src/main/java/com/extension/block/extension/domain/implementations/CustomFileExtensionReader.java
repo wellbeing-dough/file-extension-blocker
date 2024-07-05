@@ -32,7 +32,4 @@ public class CustomFileExtensionReader {
                 );
     }
 
-    public long readCountByMemberId(Long memberId) {
-        return customFileExtensionRepository.countByMemberId(memberId);
-    }
 }

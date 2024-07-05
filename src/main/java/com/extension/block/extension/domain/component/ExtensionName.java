@@ -20,6 +20,9 @@ public class ExtensionName {
     //생성자에 예외처리
     // queryDSL에 조회할떄 수정
 
+    public String toLowerCase() {
+        return value.toLowerCase();
+    }
 
     @Override
     public boolean equals(Object o) {

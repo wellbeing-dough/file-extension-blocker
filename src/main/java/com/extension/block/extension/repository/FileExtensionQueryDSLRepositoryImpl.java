@@ -1,5 +1,7 @@
 package com.extension.block.extension.repository;
 
+import com.extension.block.extension.domain.component.ExtensionName;
+import com.extension.block.extension.domain.entity.FileExtension;
 import com.extension.block.extension.domain.enums.ExtensionSafetyStatus;
 import com.extension.block.extension.repository.dto.FixedFileExtensionData;
 import com.extension.block.extension.repository.dto.UnknownFileExtensionData;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.extension.block.extension.domain.entity.QFileExtension.fileExtension;
 
@@ -25,7 +28,7 @@ public class FileExtensionQueryDSLRepositoryImpl implements FileExtensionQueryDS
                 .select(Projections.constructor(
                         FixedFileExtensionData.class,
                         fileExtension.id.as("fixedFileExtensionId"),
-                        fileExtension.extensionName
+                        fileExtension.extensionName.value.as("extensionName")
                 ))
                 .from(fileExtension)
                 .where(fileExtension.safetyStatus.eq(ExtensionSafetyStatus.FIXED));
@@ -44,5 +47,17 @@ public class FileExtensionQueryDSLRepositoryImpl implements FileExtensionQueryDS
                 .from(fileExtension)
                 .where(fileExtension.safetyStatus.eq(ExtensionSafetyStatus.UNKNOWN));
         return query.fetch();
+    }
+
+    @Override
+    public Optional<FileExtension> findUnDangerByExtensionName(ExtensionName extensionName) {
+        JPAQuery<FileExtension> query = jpaQueryFactory
+                .select(fileExtension)
+                .from(fileExtension)
+                .where(
+                        fileExtension.safetyStatus.notIn(ExtensionSafetyStatus.DANGER)
+                                .and(fileExtension.extensionName.eq(extensionName))
+                );
+        return Optional.ofNullable(query.fetchOne());
     }
 }
