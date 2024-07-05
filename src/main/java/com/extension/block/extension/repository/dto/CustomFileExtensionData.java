@@ -4,13 +4,13 @@ import com.extension.block.extension.domain.component.ExtensionName;
 import lombok.Getter;
 
 @Getter
-public class BlockedFileExtensionData {
+public class CustomFileExtensionData {
 
-    private final Long blockedFileExtensionId;
+    private final Long customFileExtensionId;
     private final String extensionName;
 
-    public BlockedFileExtensionData(Long blockedFileExtensionId, ExtensionName extensionName) {
-        this.blockedFileExtensionId = blockedFileExtensionId;
+    public CustomFileExtensionData(Long customFileExtensionId, ExtensionName extensionName) {
+        this.customFileExtensionId = customFileExtensionId;
         this.extensionName = extensionName.toLowerCase();
     }
 }

@@ -1,12 +1,11 @@
 package com.extension.block.extension.application;
 
 import com.extension.block.extension.domain.component.ExtensionName;
-import com.extension.block.extension.domain.entity.BlockedFileExtension;
+import com.extension.block.extension.domain.entity.CustomBlockFileExtension;
 import com.extension.block.extension.domain.entity.FileExtension;
-import com.extension.block.extension.domain.enums.ExtensionStatus;
 import com.extension.block.extension.domain.implementations.*;
-import com.extension.block.extension.ui.dto.response.BlockFileExtensionResponse;
 import com.extension.block.extension.ui.dto.response.BlockFixedFileExtensionResponse;
+import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +13,27 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FileExtensionService {
 
-    private final BlockedFileExtensionValidator blockedFileExtensionValidator;
-    private final BlockedFileExtensionReader blockedFileExtensionReader;
     private final FileExtensionReader fileExtensionReader;
-    private final FileExtensionWriter fileExtensionWriter;
-    private final BlockedFileExtensionWriter blockedFileExtensionWriter;
+    private final CustomFileExtensionReader customFileExtensionReader;
+    private final CustomBlockFileExtensionValidator customBlockFileExtensionValidator;
+    private final CustomBlockFileExtensionWriter customBlockFileExtensionWriter;
+    private final CustomBlockFileExtensionReader customBlockFileExtensionReader;
 
-    public BlockFileExtensionResponse getBlockedExtensions() {
-        return new BlockFileExtensionResponse(blockedFileExtensionReader.readAllExtension());
+    public CustomFileExtensionResponse getCustomBlockedExtensions() {
+        return new CustomFileExtensionResponse(customFileExtensionReader.readCustomBlockExtension());
     }
 
-    public void blockExtension(ExtensionName extensionName) {
-        blockedFileExtensionValidator.validIsCountOver();
+    public void addCustomExtension(ExtensionName extensionName) {
+        customBlockFileExtensionValidator.validIsCountOver();
         FileExtension fileExtension = fileExtensionReader.readByExtensionName(extensionName);
-        blockedFileExtensionValidator.validAlreadyExistsBlockedFileExtension(fileExtension);
-        fileExtensionWriter.updateExtensionStatus(fileExtension, ExtensionStatus.BLOCKED);
+        customBlockFileExtensionValidator.validAlreadyExistsBlockedFileExtension(fileExtension);
+        CustomBlockFileExtension customBlockFileExtension = new CustomBlockFileExtension(fileExtension.getId());
+        customBlockFileExtensionWriter.write(customBlockFileExtension);
     }
 
-    public void deleteBlockedExtension(Long extensionId) {
-        BlockedFileExtension blockedFileExtension = blockedFileExtensionReader.readById(extensionId);
-        blockedFileExtensionWriter.updateExtensionStatus(blockedFileExtension, ExtensionStatus.SAFE);
+    public void deleteCustomExtension(Long customBlockExtensionId) {
+        CustomBlockFileExtension customBlockFileExtension = customBlockFileExtensionReader.readById(customBlockExtensionId);
+        customBlockFileExtensionWriter.delete(customBlockFileExtension);
     }
 
     public BlockFixedFileExtensionResponse getBlockFixedExtensions() {

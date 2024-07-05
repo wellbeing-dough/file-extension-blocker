@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class BlockExtensionRequest {
+public class CustomBlockExtensionRequest {
 
     @Schema(description = "추가할 확장자 명", example = "jpg")
     @NotBlank(message = "값은 필수 입니다")

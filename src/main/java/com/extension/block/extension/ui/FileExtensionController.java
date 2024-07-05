@@ -3,8 +3,8 @@ package com.extension.block.extension.ui;
 import com.extension.block.extension.application.FileExtensionService;
 import com.extension.block.extension.domain.component.ExtensionName;
 import com.extension.block.extension.domain.implementations.FileExtensionsCrawler;
-import com.extension.block.extension.ui.dto.request.BlockExtensionRequest;
-import com.extension.block.extension.ui.dto.response.BlockFileExtensionResponse;
+import com.extension.block.extension.ui.dto.request.CustomBlockExtensionRequest;
+import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
 import com.extension.block.extension.ui.dto.response.BlockFixedFileExtensionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -29,28 +29,28 @@ public class FileExtensionController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "차단 확장자들 조회")
-    @GetMapping("/v1/file/block-extension")
-    public ResponseEntity<BlockFileExtensionResponse> getBlockedExtensions() {
-        return ResponseEntity.ok().body(fileExtensionService.getBlockedExtensions());
+    @Operation(summary = "커스텀 차단 확장자들 조회")
+    @GetMapping("/v1/file/custom/block-extensions")
+    public ResponseEntity<CustomFileExtensionResponse> getCustomBlockedExtensions() {
+        return ResponseEntity.ok().body(fileExtensionService.getCustomBlockedExtensions());
     }
 
-    @Operation(summary = "차단 확장자 추가")
-    @PostMapping("/v1/file/block-extension")
-    public ResponseEntity<HttpStatus> blockExtension(@RequestBody @Valid BlockExtensionRequest request) {
-        fileExtensionService.blockExtension(new ExtensionName(request.getExtensionName()));
+    @Operation(summary = "커스텀 차단 확장자 추가")
+    @PostMapping("/v1/file/custom/block-extensions")
+    public ResponseEntity<HttpStatus> addCustomExtension(@RequestBody @Valid CustomBlockExtensionRequest request) {
+        fileExtensionService.addCustomExtension(new ExtensionName(request.getExtensionName()));
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "차단 확장자 삭제")
-    @DeleteMapping("/v1/file/{extension-id}/block-extension")
-    public ResponseEntity<HttpStatus> deleteBlockedExtension(@PathVariable("extension-id") Long extensionId) {
-        fileExtensionService.deleteBlockedExtension(extensionId);
+    @Operation(summary = "커스텀 차단 확장자 삭제")
+    @DeleteMapping("/v1/file/custom/{custom-block-extension-id}/block-extensions")
+    public ResponseEntity<HttpStatus> deleteCustomExtension(@PathVariable("custom-block-extension-id") Long customBlockExtensionId) {
+        fileExtensionService.deleteCustomExtension(customBlockExtensionId);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "고정 차단 파일 확장자 조회")
-    @GetMapping("/v1/file/block-fixed-extension")
+    @GetMapping("/v1/file/block-fixed-extensions")
     public ResponseEntity<BlockFixedFileExtensionResponse> getBlockFixedExtensions() {
         return ResponseEntity.ok().body(fileExtensionService.getBlockFixedExtensions());
     }
