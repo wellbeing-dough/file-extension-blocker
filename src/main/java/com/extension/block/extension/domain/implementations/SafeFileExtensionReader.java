@@ -1,6 +1,7 @@
 package com.extension.block.extension.domain.implementations;
 
 import com.extension.block.common.exception.ErrorCode;
+import com.extension.block.extension.domain.component.ExtensionName;
 import com.extension.block.extension.domain.entity.SafeFileExtension;
 import com.extension.block.extension.exception.FileExtensionNameNotFoundException;
 import com.extension.block.extension.repository.SafeFileExtensionRepository;
@@ -15,7 +16,7 @@ public class SafeFileExtensionReader {
 
     private final SafeFileExtensionRepository safeFileExtensionRepository;
 
-    public SafeFileExtension readByExtensionName(String extensionName) {
+    public SafeFileExtension readByExtensionName(ExtensionName extensionName) {
         return safeFileExtensionRepository.findByExtensionName(extensionName)
                 .orElseThrow(() ->
                         new FileExtensionNameNotFoundException(

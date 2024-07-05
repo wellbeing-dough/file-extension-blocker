@@ -1,5 +1,6 @@
 package com.extension.block.extension.application;
 
+import com.extension.block.extension.domain.component.ExtensionName;
 import com.extension.block.extension.domain.entity.CustomFileExtension;
 import com.extension.block.extension.domain.entity.SafeFileExtension;
 import com.extension.block.extension.domain.implementations.*;
@@ -29,9 +30,9 @@ public class FileExtensionService {
 
     public void addCustomExtension(String extensionName, Long memberId) {
         Member findMember = memberReader.readById(memberId);
-        dangerFileExtensionValidator.validIsDangerFileExtension(extensionName);
+        dangerFileExtensionValidator.validIsDangerFileExtension(new ExtensionName(extensionName));
         customFileExtensionValidator.validIsCustomFileExtensionCountOver(findMember.getId());
-        SafeFileExtension safeFileExtension = safeFileExtensionReader.readByExtensionName(extensionName);
+        SafeFileExtension safeFileExtension = safeFileExtensionReader.readByExtensionName(new ExtensionName(extensionName));
         CustomFileExtension customFileExtension = new CustomFileExtension(findMember.getId(), safeFileExtension.getExtensionName(),
                 safeFileExtension.getDescription());
         customFileExtensionWriter.write(customFileExtension);

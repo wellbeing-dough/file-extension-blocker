@@ -38,7 +38,7 @@ public class FileExtensionQueryDSLRepositoryImpl implements FileExtensionQueryDS
                 .select(Projections.constructor(
                         UnknownFileExtensionData.class,
                         fileExtension.id.as("unknownFileExtensionId"),
-                        fileExtension.extensionName,
+                        fileExtension.extensionName.value.as("extensionName"),
                         fileExtension.description
                 ))
                 .from(fileExtension)
