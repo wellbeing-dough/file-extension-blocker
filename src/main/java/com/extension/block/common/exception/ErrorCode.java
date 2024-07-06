@@ -13,7 +13,8 @@ public enum ErrorCode {
     CUSTOM_BLOCKED_FILE_EXTENSION_NOT_FOUND_ERROR(404, "0203", "해당 식별자를 갖는 커스텀 차단 확장자가 없습니다."),
     FILE_EXTENSION_NOT_FOUND_ERROR(404, "0204", "해당 식별자를 갖는 확장자가 없습니다"),
     CUSTOM_BLOCKED_FILE_EXTENSION_COUNT_EXCEEDS_ERROR(400, "0205", "커스텀 차단 확장자의 최대 개수를 초과했습니다."),
-    CUSTOM_BLOCK_FILE_EXTENSION_ALREADY_EXIST_ERROR(409, "0206", "해당 커스텀 차단 확장자가 이미 존재합니다");
+    CUSTOM_BLOCK_FILE_EXTENSION_ALREADY_EXIST_ERROR(409, "0206", "해당 커스텀 차단 확장자가 이미 존재합니다"),
+    INVALID_FILE_EXTENSION_ERROR(404, "0207", "파일 확장자 형식이 맞지 않습니다 확장자 명을 다시 확인해 주세요");
     private final int status;
     private final String code;
     private final String statusMessage;

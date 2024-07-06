@@ -1,10 +1,13 @@
 package com.extension.block.extension.domain.component;
 
+import com.extension.block.common.exception.ErrorCode;
+import com.extension.block.extension.exception.InvalidFileExtensionException;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Embeddable
 @NoArgsConstructor
@@ -12,13 +15,23 @@ import java.util.Objects;
 public class ExtensionName {
 
     private String value;
+    // 정규 표현식: 시작에 선택적으로 마침표, 느낌표, 언더스코어 중 하나가 올 수 있고, 중간에는 알파벳 대문자, 숫자, 하이픈, 언더스코어, 끝에는 선택적으로 마침표, 하이픈, 언더스코어, 느낌표 중 하나가 올 수 있다
+    private static final Pattern EXTENSION_PATTERN = Pattern.compile("^[\\.!_]?([A-Z0-9_-]+)[\\.!_\\-]?$");
 
     public ExtensionName(String value) {
+        value = value.toUpperCase();
+        isValidExtensionPattern(value);
         this.value = value;
     }
 
-    //생성자에 예외처리
-    // queryDSL에 조회할떄 수정
+    public void isValidExtensionPattern(String value) {
+        if (!EXTENSION_PATTERN.matcher(value).matches()) {
+            throw new InvalidFileExtensionException(
+                    ErrorCode.INVALID_FILE_EXTENSION_ERROR,
+                    ErrorCode.INVALID_FILE_EXTENSION_ERROR.getStatusMessage()
+            );
+        }
+    }
 
     public String toLowerCase() {
         return value.toLowerCase();

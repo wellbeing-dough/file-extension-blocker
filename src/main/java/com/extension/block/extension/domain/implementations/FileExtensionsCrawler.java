@@ -84,7 +84,7 @@ public class FileExtensionsCrawler {
             for (Element row : rows) {
                 Elements cells = row.select("td");
                 if (cells.size() == 2) {
-                    String type = cells.get(0).text().trim().replace("§", "");
+                    String type = cells.get(0).text().trim().replace("§", "").replace("~", "");
                     String notes = cells.get(1).text().trim();
                     if ("종류".equals(type)) {
                         continue;
