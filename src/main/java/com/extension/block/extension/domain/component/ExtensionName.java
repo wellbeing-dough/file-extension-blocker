@@ -19,8 +19,8 @@ public class ExtensionName {
     private static final Pattern EXTENSION_PATTERN = Pattern.compile("^[\\.!_]?([A-Z0-9_-]+)[\\.!_\\-]?$");
 
     public ExtensionName(String value) {
-        value = value.toUpperCase();
-        isValidExtensionPattern(value);
+//        value = value.toUpperCase();
+//        isValidExtensionPattern(value);
         this.value = value;
     }
 

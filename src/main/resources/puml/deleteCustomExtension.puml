@@ -1,0 +1,17 @@
+@startuml
+
+title 커스텀 확장자 삭제 \n (/v1/file/custom/{custom-block-extension-id}/block-extensions)
+
+participant client
+participant server
+participant DB
+
+client -> server: 커스텀 확장자 삭제 요청(delete)
+server -> DB : 커스텀 확장자 조회
+server <- DB : 커스텀 확장자 반환
+server -> server : 커스텀 확장자 없으면 예외
+server -> DB : 커스텀 확장자 논리 삭제
+client <- server : 204 no-content 반환
+
+
+@enduml

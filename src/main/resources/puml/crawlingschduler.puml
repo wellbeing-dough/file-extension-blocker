@@ -1,0 +1,16 @@
+@startuml
+
+title 파일 확장자 크롤링
+
+participant target_page
+participant server
+participant DB
+
+server -> server : Scheduler로 3개월마다 크롤링
+target_page <- server : 데이터 크롤링
+server -> DB : 기존에 저장되어 있던 파일 확장자들 조회
+server <- DB : 기존에 저장되어 있던 파일 확장자들 반환
+server -> server : 크롤링 확장자와 기존 확장자 비교 새로운 확장자 저장
+server -> DB : 새로운 확장자 저장
+
+@enduml

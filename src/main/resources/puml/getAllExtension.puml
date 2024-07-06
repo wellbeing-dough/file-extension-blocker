@@ -1,0 +1,17 @@
+@startuml
+
+title 전체 커스텀 확장자 조회 (/v1/file/all/block-extensions)
+
+participant client
+participant server
+participant DB
+
+client -> server: 전체 확장자들 조회 요청(get)
+server -> DB : 커스텀 확장자 리스트 조회
+server <- DB : 커스텀 확장자 리스트 반환
+server -> DB : 고정 커스텀 확장자 리스트 조회
+server <- DB : 고정 커스텀 확장자 리스트 반환
+client <- server : 전체 확장자들 결과값 반환
+
+
+@enduml

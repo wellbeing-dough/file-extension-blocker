@@ -6,12 +6,14 @@ import com.extension.block.extension.exception.CustomBlockFileExtensionCountOver
 import com.extension.block.extension.exception.CustomBlockFileExtensionAlreadyExistException;
 import com.extension.block.extension.repository.CustomBlockFileExtensionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
+@Slf4j
 public class CustomBlockFileExtensionValidator {
 
     private static final int CUSTOM_BLOCK_FILE_EXTENSION_COUNT_MAX = 200;
@@ -30,7 +32,8 @@ public class CustomBlockFileExtensionValidator {
     }
 
     public void validAlreadyExistsBlockedFileExtension(FileExtension fileExtension) {
-        if (customBlockFileExtensionRepository.existsByFileExtensionId(fileExtension.getId())) {
+        if (customBlockFileExtensionRepository.existsByFileExtensionIdWithPessimisticLock(fileExtension.getId())) {
+            log.info("$$$$$$$$$$$$$$$");
             throw new CustomBlockFileExtensionAlreadyExistException(
                     ErrorCode.CUSTOM_BLOCK_FILE_EXTENSION_ALREADY_EXIST_ERROR,
                     ErrorCode.CUSTOM_BLOCK_FILE_EXTENSION_ALREADY_EXIST_ERROR.getStatusMessage(),

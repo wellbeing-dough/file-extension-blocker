@@ -4,9 +4,13 @@ import com.extension.block.common.exception.ErrorCode;
 import com.extension.block.extension.domain.entity.CustomBlockFileExtension;
 import com.extension.block.extension.exception.CustomBlockedFileExtensionNotFoundException;
 import com.extension.block.extension.repository.CustomBlockFileExtensionRepository;
+import com.extension.block.extension.repository.dto.CustomFileExtensionData;
+import com.extension.block.extension.repository.dto.FixedFileExtensionData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +20,7 @@ public class CustomBlockFileExtensionReader {
     private final CustomBlockFileExtensionRepository customBlockFileExtensionRepository;
 
     public CustomBlockFileExtension readById(Long customBlockExtensionId) {
-        return customBlockFileExtensionRepository.findById(customBlockExtensionId)
+        return customBlockFileExtensionRepository.findByIdWithPessimisticLock(customBlockExtensionId)
                 .orElseThrow( () ->
                         new CustomBlockedFileExtensionNotFoundException(
                                 ErrorCode.CUSTOM_BLOCKED_FILE_EXTENSION_NOT_FOUND_ERROR,
@@ -24,4 +28,14 @@ public class CustomBlockFileExtensionReader {
                         )
                 );
     }
+
+
+    public List<CustomFileExtensionData> readCustomBlockExtension() {
+        return customBlockFileExtensionRepository.findCustomBlockExtension();
+    }
+
+    public List<FixedFileExtensionData> readFixedBlockExtension() {
+        return customBlockFileExtensionRepository.findFixedBlockExtension();
+    }
+
 }

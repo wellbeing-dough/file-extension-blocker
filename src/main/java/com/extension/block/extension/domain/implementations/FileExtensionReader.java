@@ -23,7 +23,6 @@ public class FileExtensionReader {
         return fileExtensionRepository.findAllFixedExtensions();
     }
 
-    //todo 지원하는 확장자가 없을 경우 이메일 전송 로직 추가
     public FileExtension readByExtensionName(ExtensionName extensionName) {
         return fileExtensionRepository.findByExtensionName(extensionName)
                 .orElseThrow(() ->

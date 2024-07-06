@@ -10,6 +10,7 @@ import com.extension.block.extension.ui.dto.response.BlockFixedFileExtensionResp
 import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,18 +19,17 @@ import java.util.List;
 public class FileExtensionService {
 
     private final FileExtensionReader fileExtensionReader;
-    private final CustomFileExtensionReader customFileExtensionReader;
     private final CustomBlockFileExtensionValidator customBlockFileExtensionValidator;
     private final CustomBlockFileExtensionWriter customBlockFileExtensionWriter;
     private final CustomBlockFileExtensionReader customBlockFileExtensionReader;
 
     public CustomFileExtensionResponse getBlockedExtensions() {
-        List<CustomFileExtensionData> customFileExtensionData = customFileExtensionReader.readCustomBlockExtension();
-        List<FixedFileExtensionData> fixedFileExtensionData = customFileExtensionReader.readFixedBlockExtension();
+        List<CustomFileExtensionData> customFileExtensionData = customBlockFileExtensionReader.readCustomBlockExtension();
+        List<FixedFileExtensionData> fixedFileExtensionData = customBlockFileExtensionReader.readFixedBlockExtension();
         return new CustomFileExtensionResponse(customFileExtensionData, fixedFileExtensionData);
     }
 
-    public void addCustomExtension(ExtensionName extensionName) {
+    public synchronized void addCustomExtension(ExtensionName extensionName) {
         customBlockFileExtensionValidator.validIsCountOver();
         FileExtension fileExtension = fileExtensionReader.readByExtensionName(extensionName);
         customBlockFileExtensionValidator.validAlreadyExistsBlockedFileExtension(fileExtension);
@@ -37,6 +37,7 @@ public class FileExtensionService {
         customBlockFileExtensionWriter.write(customBlockFileExtension);
     }
 
+    @Transactional
     public void deleteCustomExtension(Long customBlockExtensionId) {
         CustomBlockFileExtension customBlockFileExtension = customBlockFileExtensionReader.readById(customBlockExtensionId);
         customBlockFileExtensionWriter.delete(customBlockFileExtension);

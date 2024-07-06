@@ -1,0 +1,22 @@
+@startuml
+
+title 커스텀 확장자 추가 (/v1/file/custom/block-extensions)
+
+participant client
+participant server
+participant DB
+
+client -> server: 커스텀 확장자 추가 요청(post)
+server -> DB : 전체 커스텀 확장자 개수 요청
+server <- DB : 전체 커스텀 확장자 개수 반환
+server -> server : 커스텀 확장자 개수 200개 초과 검증
+server -> server : '확장자 명' 이 올바른지 검증, 예외
+server -> DB : 전체 파일 리스트에서 '확장자 명' 으로 조회 요청
+server <- DB : 전체 파일 리스트에서 '확장자 명' 으로 조회 반환
+server -> server : 전체 파일 리스트에 없는 확장자 명 이라면 예외
+server -> server : 이미 추가한 커스텀 확장자 라면 예외
+server -> DB : 커스텀 확장자 생성 요청
+client <- server : 200 ok 반환
+
+
+@enduml
