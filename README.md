@@ -19,11 +19,24 @@
 - 해당 값 객체를 이용하여 확장자 명 소문자, 대문자 변환 통일 (DB에는 대문자 저장, 클라이언트 요청/반환 값은 소문자)
 
 ### 3. 동시에 여러 클라이언트가 같은 이름의 커스텀 확장자를 추가하면 어떡하지?
+![img_3.png](img_3.png)
 - 동시성 처리
-- 
+- synchronize 키워드 vs Pessimistic Lock vs Redisson
+  - redisson은 성능이 좋지만 성능이 필요한 기능도 아닌 것 같다고 생각했음
+  - synchronize는 ec2서버가 여러개 있다면 동시성 이슈를 막을 수 없음
+  - Pessimistic Lock 은 성능 이슈와 데드락 이슈가 있음
+  - 결론: Pessimistic Lock 쿼리 짜놓고 유동적으로 synchronize키워드와 변경할 수 있게 추후에 성능이 필요해지면 redisson 도입
+    하지만 개인적으로 성능이 필요해지면 member 테이블이랑 같이 로그인 서비스가 되어 redisson을 도입할 가능성은 적어 보임
 
 ### 4. 동시에 여러 클라이언트가 같은 id의 커스텀 확장자를 삭제하면 어떡하지?
+- ![img_2.png](img_2.png)
 - 동시성 처리
+- synchronize 키워드 vs Pessimistic Lock vs Redisson
+  - redisson은 성능이 좋지만 성능이 필요한 기능도 아닌 것 같다고 생각했음
+  - synchronize는 ec2서버가 여러개 있다면 동시성 이슈를 막을 수 없음
+  - Pessimistic Lock 은 성능 이슈와 데드락 이슈가 있음
+  - 결론: Pessimistic Lock 쿼리 짜놓고 유동적으로 synchronize키워드와 변경할 수 있게 추후에 성능이 필요해지면 redisson 도입 
+하지만 개인적으로 성능이 필요해지면 member 테이블이랑 같이 로그인 서비스가 되어 redisson을 도입할 가능성은 적어 보임
 
 ### 5. 커스텀 확장자 추가 중복 방지
 - 서버 예외처리
