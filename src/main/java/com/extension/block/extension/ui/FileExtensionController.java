@@ -29,10 +29,10 @@ public class FileExtensionController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "커스텀 차단 확장자들 조회")
-    @GetMapping("/v1/file/custom/block-extensions")
-    public ResponseEntity<CustomFileExtensionResponse> getCustomBlockedExtensions() {
-        return ResponseEntity.ok().body(fileExtensionService.getCustomBlockedExtensions());
+    @Operation(summary = "전체 차단 확장자들 조회")
+    @GetMapping("/v1/file/all/block-extensions")
+    public ResponseEntity<CustomFileExtensionResponse> getBlockedExtensions() {
+        return ResponseEntity.ok().body(fileExtensionService.getBlockedExtensions());
     }
 
     @Operation(summary = "커스텀 차단 확장자 추가")

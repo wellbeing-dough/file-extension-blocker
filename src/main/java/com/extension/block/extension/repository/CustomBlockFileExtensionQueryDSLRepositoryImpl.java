@@ -2,6 +2,7 @@ package com.extension.block.extension.repository;
 
 import com.extension.block.extension.domain.enums.ExtensionStatus;
 import com.extension.block.extension.repository.dto.CustomFileExtensionData;
+import com.extension.block.extension.repository.dto.FixedFileExtensionData;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -30,6 +31,20 @@ public class CustomBlockFileExtensionQueryDSLRepositoryImpl implements CustomBlo
                 .from(customBlockFileExtension)
                 .innerJoin(fileExtension).on(customBlockFileExtension.fileExtensionId.eq(fileExtension.id))
                 .where(fileExtension.extensionStatus.notIn(ExtensionStatus.BLOCK_FIXED));
+        return query.fetch();
+    }
+
+    @Override
+    public List<FixedFileExtensionData> findFixedBlockExtension() {
+        JPAQuery<FixedFileExtensionData> query = jpaQueryFactory
+                .select(Projections.constructor(
+                        FixedFileExtensionData.class,
+                        customBlockFileExtension.id.as("customFileExtensionId"),
+                        fileExtension.extensionName
+                ))
+                .from(customBlockFileExtension)
+                .innerJoin(fileExtension).on(customBlockFileExtension.fileExtensionId.eq(fileExtension.id))
+                .where(fileExtension.extensionStatus.eq(ExtensionStatus.BLOCK_FIXED));
         return query.fetch();
     }
 }

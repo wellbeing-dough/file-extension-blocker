@@ -4,10 +4,14 @@ import com.extension.block.extension.domain.component.ExtensionName;
 import com.extension.block.extension.domain.entity.CustomBlockFileExtension;
 import com.extension.block.extension.domain.entity.FileExtension;
 import com.extension.block.extension.domain.implementations.*;
+import com.extension.block.extension.repository.dto.CustomFileExtensionData;
+import com.extension.block.extension.repository.dto.FixedFileExtensionData;
 import com.extension.block.extension.ui.dto.response.BlockFixedFileExtensionResponse;
 import com.extension.block.extension.ui.dto.response.CustomFileExtensionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +23,10 @@ public class FileExtensionService {
     private final CustomBlockFileExtensionWriter customBlockFileExtensionWriter;
     private final CustomBlockFileExtensionReader customBlockFileExtensionReader;
 
-    public CustomFileExtensionResponse getCustomBlockedExtensions() {
-        return new CustomFileExtensionResponse(customFileExtensionReader.readCustomBlockExtension());
+    public CustomFileExtensionResponse getBlockedExtensions() {
+        List<CustomFileExtensionData> customFileExtensionData = customFileExtensionReader.readCustomBlockExtension();
+        List<FixedFileExtensionData> fixedFileExtensionData = customFileExtensionReader.readFixedBlockExtension();
+        return new CustomFileExtensionResponse(customFileExtensionData, fixedFileExtensionData);
     }
 
     public void addCustomExtension(ExtensionName extensionName) {

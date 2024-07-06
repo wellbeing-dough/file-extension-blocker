@@ -24,7 +24,7 @@ public class FileExtensionQueryDSLRepositoryImpl implements FileExtensionQueryDS
                 .select(Projections.constructor(
                         BlockFixedFileExtensionData.class,
                         fileExtension.id.as("blockFixedFileExtensionId"),
-                        fileExtension.extensionName.value.as("extensionName")
+                        fileExtension.extensionName
                 ))
                 .from(fileExtension)
                 .where(fileExtension.extensionStatus.eq(ExtensionStatus.BLOCK_FIXED));

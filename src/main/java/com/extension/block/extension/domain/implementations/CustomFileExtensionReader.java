@@ -2,6 +2,7 @@ package com.extension.block.extension.domain.implementations;
 
 import com.extension.block.extension.repository.CustomBlockFileExtensionRepository;
 import com.extension.block.extension.repository.dto.CustomFileExtensionData;
+import com.extension.block.extension.repository.dto.FixedFileExtensionData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,5 +19,9 @@ public class CustomFileExtensionReader {
 
     public List<CustomFileExtensionData> readCustomBlockExtension() {
         return customFileExtensionRepository.findCustomBlockExtension();
+    }
+
+    public List<FixedFileExtensionData> readFixedBlockExtension() {
+        return customFileExtensionRepository.findFixedBlockExtension();
     }
 }
